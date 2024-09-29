@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Professional Portfolio</title>
+    <style>
+        /* Basic styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #333;
+            background-color: #0f0d0d;
+        }
+        p{
+            text-shadow: 2px 2px 5px rgb(0, 187, 255);
+
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 5px rgb(0, 187, 255);
+            text-align: left;
+            margin: 0;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: left;
+            color: #fff;
+            margin: 0 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            padding: 50px 0;
+            background-color: #222;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #aaa;
+        }
+
+        /* Navigation styles */
+        nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;
+    align-items: center;
+    position: sticky; /* Use sticky instead of relative */
+    top: 0; /* This sticks the navbar to the top */
+    z-index: 1000; /* Ensures the nav stays above other content */
+    width: 100%; /* Ensures the navbar spans the full width */
+}
+
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 0;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #3bb1ff;
+        }
+
+        /* Glowing effect and moving line under the text */
+        nav ul li a::after {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #3bb1ff; /* Line color */
+            position: absolute;
+            bottom: -5px; /* Positioning the line below the text */
+            left: 0;
+            transform: scaleX(0); /* Start with the line scaled down */
+            transition: transform 0.3s ease; /* Transition for scaling */
+        }
+
+        nav ul li a:hover::after {
+            transform: scaleX(1); /* Scale the line to full width on hover */
+        }
+
+        nav ul li a:hover {
+            text-shadow: 0 0 5px #3bb1ff, 0 0 10px #3bb1ff, 0 0 15px #3bb1ff; /* Glowing text effect */
+        }
+
+        /* About Section with Flexbox */
+        .about-container {
+            display: flex;
+            padding: 60px 10%;
+            background-color: #0f0d0d;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        /* Left and Right Content Styling */
+        .left-content {
+            flex: 0.3;
+            text-align: left;
+        }
+
+        .right-content {
+            flex: 0.7;
+            padding-left: 50px;
+        }
+
+        /* Text Styling */
+        .about-text {
+            padding-right: 40px;
+        }
+
+        .about-text h2 {
+            color: #fff;
+        }
+
+        .about-text p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        /* Image Container */
+        .about-image img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s ease;
+            transform: translateX(100px);
+            opacity: 0;
+            animation: slideIn 1s forwards;
+        }
+
+        /* Slide-in Keyframes */
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Hover Effect */
+        .about-image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px 5px rgba(7, 110, 221, 0.6);
+        }
+
+        /* Skills Section */
+        .skills {
+            text-align: left;
+            padding: 90px 10%;
+            background-color: #0f0d0d;
+        }
+
+        .skills h2 {
+            font-size: 2.5rem;
+            margin-bottom: 70px;
+            color: #fff;
+        }
+
+        .skill-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+        }
+
+        .skill {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            text-align: center;
+            background-color: #333;
+            transition: transform 0.6s ease, box-shadow 0.9s ease;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill:hover {
+            transform: scale(1.20);
+            box-shadow: 0 0 20px 5px rgba(60, 242, 255, 0.6);
+        }
+
+        .skill .front,
+        .skill .back {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.6s ease;
+        }
+
+        .skill .front {
+            background-color: #444;
+            color: white;
+        }
+
+        .skill .back {
+            background-color: #555;
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .skill:hover .front {
+            transform: rotateY(360deg);
+        }
+
+        .skill:hover .back {
+            transform: rotateY(0);
+        }
+ /* Projects Section */
+ .projects {
+            padding: 60px 10%;
+            background-color: black;
+        }
+
+        .projects h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color:black;
+        }
+        .projects h3 {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color:black;
+        }
+        .projects h5 {
+            font-size: 1rem;
+            margin-bottom: 40px;
+            color:black;
+        }
+ 
+ 
+
+        .project-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .project {
+            width: 250px;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(255, 200, 200, 0.8), rgba(200, 255, 255, 0.8));
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px 5px rgba(59, 242, 255, 0.6);
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: white;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+        /* Download PDF button styles */
+        .download-btn {
+            background: linear-gradient(45deg, #00FFFF, #FFD700, #FF00FF, #50C878); /* Colorful gradient */
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Move to right side */
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 177, 255, 0.5);
+        }
+
+        /* Button text styling */
+        .download-btn .download-link {
+            color: rgb(15, 14, 14);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Hover effects for the text */
+        .download-btn:hover .download-link {
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Optional: Animated background gradient */
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient( 45deg, #00FFFF, #FFD700, #FF00FF, #50C878);
+            animation: moveGradient 5s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveGradient {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        h1 {
+    font-size: 3.5rem;
+    text-align: left;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative; /* Add this for positioning the line */
+    color: white; /* Ensure text color is set to white for better contrast */
+    text-shadow: 
+        0 0 5px rgba(59, 177, 255, 0.8), 
+        0 0 10px rgba(59, 177, 255, 0.6), 
+        0 0 15px rgba(59, 177, 255, 0.4); /* Glowing effect */
+}
+
+/* Animated line under the h1 */
+h1::after {
+    content: '';
+    display: block;
+    height: 4px; /* Thickness of the line */
+    width: 100%;
+    background: #3bb1ff; /* Line color */
+    position: absolute;
+    bottom: -0px; /* Positioning the line below the text */
+    left: 0;
+    transform: scaleX(0); /* Start with the line scaled down */
+    transition: transform 0.5s ease; /* Transition for scaling */
+}
+
+/* Animate line on hover */
+h1:hover::after {
+    transform: scaleX(1); /* Scale the line to full width on hover */
+}
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #efeaea;
+    transition: color 0.4s ease;
+}
+
+header.scrolled .logo {
+    color: white;
+}
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Atchaya V.S</h1>
+    <button id="downloadBtn" class="download-btn">
+        <a href="#" class="download-link">Download PDF</a>
+    </button>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">welcome</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+        </ul>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about" class="about-container">
+        <div class="left-content">
+            <div class="about-image">
+                <img src="me.jpg" alt="My Photo">
+            </div>
+        </div>
+        <div class="right-content">
+            <div class="about-text">
+                <h1>About Me</h1>
+                <p>"Hello! I am Atchaya V.S, currently pursuing a 5-year integrated course in Software Systems at Coimbatore Institute of Technology. I am in my 2nd year, and I have a passion for delivering high-quality and innovative solutions in software development. My expertise lies in C, Java, and PHP programming, with a focus on algorithmic problem-solving. I enjoy learning new technologies and applying them to create dynamic and impactful projects."</p>
+            </div>
+                
+            <a href="https://github.com" target="_blank" class="icon-hover">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            
+     
+       <a href="https://www.google.com/search?gs_ssp=eJzj4tLP1TcoNzC2MDBVYDRgdGDw4sjJzMtOTcnMAwBRaga5&q=linkedin&rlz=1C1ONGR_en-GBIN1071IN1071&oq=li&gs_lcrp=EgZjaHJvbWUqEggBEC4YJxjHARjRAxiABBiKBTIPCAAQIxgnGOMCGIAEGIoFMhIIARAuGCcYxwEY0QMYgAQYigUyBggCEEUYOzIGCAMQRRhAMgYIBBBFGDwyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQgyMTExajBqN6gCALACAA&sourceid=chrome&ie=UTF-8" target="_blank" class="icon-hover">
+        <i class="fa-brands fa-linkedin icon-hover icon-hover"></i>
+    </a>
+    <a href="https://www.google.co.in/" target="_blank" class="icon-hover">
+       <i class="fa-brands fa-google icon-hover icon-hover"></i>
+       </a>
+       <a href="https://www.facebook.com/"target="_blank" class="icon-hover">
+       <i class="fa-brands fa-facebook icon-hover icon-hover"></i>
+       </a>
+       <br>
+       <br> 
+        
+       <button class="btn-resume" onclick="window.location.href='mailto:your-email@example.com';">Contact Me</button>
+
+       
+       <button class="btn-resume" onclick="window.location.href='resume.pdf';">See My Resume</button>
+        </div>
+    </section>
+
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="skills">
+            <div class="left-content">
+                <h1>Skills</h1>
+            </div>
+            <div class="skill-container right-content">
+                <div class="skill">
+                    <div class="front">
+                        <h3>Python</h3>
+                    </div>
+                    <div class="back">
+                        Expert in Python for software development, data analysis, and scripting.
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>Web Development</h3>
+                    </div>
+                    <div class="back">
+                        Skilled in HTML, CSS, JavaScript, and backend technologies.
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>C++</h3>
+                    </div>
+                    <div class="back">
+                        Strong in C++ for object-oriented programming and system development.
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>C</h3>
+                    </div>
+                    <div class="back">
+                        Strong in C for programming and system development.
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>ADS</h3>
+                    </div>
+                    <div class="back">
+                        Strong in ads for programming .
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>DSA</h3>
+                    </div>
+                    <div class="back">
+                        Strong in dsa for programming .
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>Bootstrap</h3>
+                    </div>
+                    <div class="back">
+                        Bootstrap is a popular front-end framework used for developing responsive and mobile-first websites.
+                    </div>
+                </div>
+                <div class="skill">
+                    <div class="front">
+                        <h3>JAVA</h3>
+                    </div>
+                    <div class="back">
+                        Strong in java for programming .
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="projects">
+            <h1>Projects</h1>
+            <div class="project-container">
+                <div class="project">
+                    <h3>Scientific Calculator</h3>
+                  <h5>  Styled like a Casio calculator, this project showcases advanced mathematical functions.</h5>
+                </div>
+                <div class="project">
+                    <h3>Train Ticket Booking System</h3>
+                   <h5> A PHP-based ticket booking system, featuring SQL database interactions.</h5>
+                </div>
+                <div class="project">
+                    <h3>CPU Scheduling Algorithms</h3>
+                   <h5> CPU Scheduling is the process of determining which processes in the ready queue will be executed by the CPU in operating systems.</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 V.S. Atchaya | All Rights Reserved</>
+</footer>
+    <!-- JS PDF Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+    
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const doc = new jsPDF();
+    
+            // Header
+            doc.setFontSize(20);
+            doc.text("Professional Portfolio", 20, 20);
+            doc.setFontSize(16);
+            doc.text("Name: Atchaya V.S", 20, 30);
+    
+            // About Me Section
+            doc.setFontSize(14);
+            doc.text("About Me", 20, 40);
+            doc.setFontSize(12);
+            doc.text("Hello! I am Atchaya V.S, currently pursuing a 5-year integrated course in Software Systems", 20, 50);
+            doc.text("at Coimbatore Institute of Technology. I am in my 2nd year, and I have a passion for delivering", 20, 55);
+            doc.text("high-quality and innovative solutions in software development. My expertise lies in C, Java,", 20, 60);
+            doc.text("and PHP programming, with a focus on algorithmic problem-solving.", 20, 65);
+    
+            // Skills Section
+            doc.setFontSize(14);
+            doc.text("Skills", 20, 80);
+            doc.setFontSize(12);
+            doc.text("1. Python: Expert in Python for software development, data analysis, and scripting.", 20, 90);
+            doc.text("2. Web Development: Skilled in HTML, CSS, JavaScript, and backend technologies.", 20, 95);
+            doc.text("3. C++: Strong in C++ for object-oriented programming and system development.", 20, 100);
+            doc.text("4. C: Strong in C for system-level programming.", 20, 105);
+            doc.text("5. ADS: Expertise in advanced data structures.", 20, 110);
+            doc.text("6. DSA: Proficient in algorithms and data structure analysis.", 20, 115);
+            doc.text("7. Bootstrap: Skilled in Bootstrap for developing responsive websites.", 20, 120);
+            doc.text("8. Java: Strong in Java for programming and software solutions.", 20, 125);
+    
+            // Projects Section
+            doc.setFontSize(14);
+            doc.text("Projects", 20, 140);
+            doc.setFontSize(12);
+            doc.text("1. Scientific Calculator: Styled like a Casio calculator with advanced mathematical functions.", 20, 150);
+            doc.text("2. Train Ticket Booking System: PHP-based system featuring SQL database interactions.", 20, 155);
+            doc.text("3. CPU Scheduling Algorithms: Implements CPU scheduling algorithms for OS-level management.", 20, 160);
+    
+            // Footer
+            doc.setFontSize(10);
+            doc.text("© 2024 V.S. Atchaya | All Rights Reserved", 20, 280);
+    
+            // Save the PDF
+            doc.save("Portfolio.pdf");
+        });
+    </script>
+    
+
+</body>
+
+</html>
